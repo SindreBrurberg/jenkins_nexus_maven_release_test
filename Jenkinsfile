@@ -3,6 +3,12 @@ def outFile
 def release = false
 pipeline {
     agent any
+    parameters {
+        choice(
+            choices: ['greeting' , 'silence'],
+            description: '',
+            name: 'REQUESTED_ACTION')
+    }
     tools {
         go 'Go 1.20'
         maven 'Mvn'
