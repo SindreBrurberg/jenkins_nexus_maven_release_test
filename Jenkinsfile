@@ -11,42 +11,7 @@ pipeline {
         NEXUS_CREDS = credentials('Cantara-NEXUS')
     }
     stages {
-		stage('release') {
-            def performRelease = input  message             : "Perform Maven Release?",
-                                        ok                  : "Schedule Maven Release Build",
-                                        submitter           : env.ALLOWED_SUBMITTER_RELEASE,
-                                        submitterParameter  : 'APPROVING_SUBMITTER',
-                                        parameters:
-                                        [
-                                            booleanParam
-                                            (
-                                                defaultValue: true,
-                                                description: '',
-                                                name: 'Dry run only?'
-                                            ),
-                                            string
-                                            (
-                                                defaultValue: '',
-                                                description: '',
-                                                name: 'Release Version'
-                                            ),
-                                            string
-                                            (
-                                                defaultValue: '',
-                                                description: '',
-                                                name: 'Development version'
-                                            )
-                                        ]
-
-            if( performRelease )
-            {
-                echo "Release values ${performRelease['Dry run only?']}, ${performRelease['Development version']}, ${performRelease['Release Version']}"
-                dir( env.PROJECT_FOLDER )
-                {
-                    echo "Release values ${performRelease['Dry run only?']}, ${performRelease['Development version']}, ${performRelease['Release Version']}"
-                }
-            }
-        }
+        input message: 'Release', ok: 'Release', parameters: [choice(choices: ['v0.5.20', 'v0.6.0', 'v1.0.0'], description: 'New version', name: 'Version')]
         stage("pre") {
             steps {
                 script {
