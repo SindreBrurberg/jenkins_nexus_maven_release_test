@@ -5,9 +5,10 @@ pipeline {
     agent any
     parameters {
         choice(
-            choices: ['greeting' , 'silence'],
-            description: '',
-            name: 'REQUESTED_ACTION')
+            choices: ['v0.5.20', 'v0.6.0', 'v1.0.0'],
+            description: 'New version',
+            name: 'Version'
+        )
     }
     tools {
         go 'Go 1.20'
