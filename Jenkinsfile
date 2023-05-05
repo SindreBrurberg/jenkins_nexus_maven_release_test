@@ -11,7 +11,11 @@ pipeline {
         NEXUS_CREDS = credentials('Cantara-NEXUS')
     }
     stages {
-        input message: 'Release', ok: 'Release', parameters: [choice(choices: ['v0.5.20', 'v0.6.0', 'v1.0.0'], description: 'New version', name: 'Version')]
+        stage("input") {
+            steps {
+                input message: 'Release', ok: 'Release', parameters: [choice(choices: ['v0.5.20', 'v0.6.0', 'v1.0.0'], description: 'New version', name: 'Version')]
+            }
+        }
         stage("pre") {
             steps {
                 script {
